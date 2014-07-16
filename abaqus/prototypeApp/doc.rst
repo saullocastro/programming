@@ -2,7 +2,7 @@ Prototype Application for Abaqus
 ================================
 
 If you are willing to create ABAQUS plug-ins start with the propotype model
-provided in the code, inside ``programming/abaqus/gui``, which can be
+provided in the code, inside ``programming/abaqus/prototypeApp``, which can be
 downloaded here:
 
 `<https://github.com/saullocastro/programming/archive/master.zip>`_
@@ -12,7 +12,7 @@ the ABAQUS GUI User's Manual and look for "prototypeApp".  The content of the
 example package provided is::
 
     appIcons.py
-    run_GUI.bat
+    run_prototypeApp.bat
     prototypeApp.py
     prototypeMainWindow.py
     prototypeToolsetGui.py
