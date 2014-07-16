@@ -1,6 +1,7 @@
 Abaqus
-------
+======
 
-To submit the files::
+.. toctree::
+   :maxdepth: 2
 
-    abaqus script=script_name.psf
+   parametric_model/doc.rst
