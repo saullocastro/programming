@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Prototype Application for Abaqus &mdash; Programming 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="top" title="Programming 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Abaqus" href="../doc.html" />
+    <link rel="next" title="CUDA" href="../../cuda/doc.html" />
+    <link rel="prev" title="Parametric Model" href="../parametric_model/doc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../cuda/doc.html" title="CUDA"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../parametric_model/doc.html" title="Parametric Model"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../doc.html" accesskey="U">Abaqus</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="prototype-application-for-abaqus">
+<h1>Prototype Application for Abaqus<a class="headerlink" href="#prototype-application-for-abaqus" title="Permalink to this headline">¶</a></h1>
+<p>If you are willing to create ABAQUS plug-ins start with the propotype model
+provided in the code, inside <tt class="docutils literal"><span class="pre">programming/abaqus/prototypeApp</span></tt>, which can be
+downloaded here:</p>
+<p><a class="reference external" href="https://github.com/saullocastro/programming/archive/master.zip">https://github.com/saullocastro/programming/archive/master.zip</a></p>
+<p>It provides a straightforward way to check your new GUI. For more detail see
+the ABAQUS GUI User&#8217;s Manual and look for &#8220;prototypeApp&#8221;.  The content of the
+example package provided is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">appIcons</span><span class="o">.</span><span class="n">py</span>
+<span class="n">run_prototypeApp</span><span class="o">.</span><span class="n">bat</span>
+<span class="n">prototypeApp</span><span class="o">.</span><span class="n">py</span>
+<span class="n">prototypeMainWindow</span><span class="o">.</span><span class="n">py</span>
+<span class="n">prototypeToolsetGui</span><span class="o">.</span><span class="n">py</span>
+<span class="n">testDB</span><span class="o">.</span><span class="n">py</span>
+<span class="n">testFrom</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>In the DESICOS project (see
+<a class="reference external" href="http://desicos.github.io/desicos/">the documentation</a> or
+<a class="reference external" href="https://github.com/desicos/desicos">the code</a>) we have done a plugin for
+ABAQUS based on this prototypeApp described above. It may be useful as a
+reference for commands and so on...  to run this plugin execute file
+&#8220;START_GUI.bat&#8221; inside the main folder</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ABAQUS must be installed and executable with the command &#8220;abaqus cae&#8221;</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../parametric_model/doc.html"
+                        title="previous chapter">Parametric Model</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../cuda/doc.html"
+                        title="next chapter">CUDA</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/abaqus/prototypeApp/doc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../cuda/doc.html" title="CUDA"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../parametric_model/doc.html" title="Parametric Model"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../doc.html" >Abaqus</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright since 2012 Saullo G. P. Castro.
+      Last updated on Jul 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
