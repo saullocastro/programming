@@ -5,3 +5,4 @@ Abaqus
    :maxdepth: 2
 
    parametric_model/doc.rst
+   gui/doc.rst
