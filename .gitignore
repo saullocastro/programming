@@ -1,7 +1,7 @@
 # built modules
 build
 # folders not to be included
-abaqus
+doc
 access
 c
 c++
