@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Naive addition of two vectors &mdash; Programming 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/logo.png"/>
+    <link rel="top" title="Programming 1.0.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Running CUDA in Python through Cython" href="../doc.html" />
+    <link rel="prev" title="Running CUDA in Python through Cython" href="../doc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../doc.html" title="Running CUDA in Python through Cython"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../doc.html" >CUDA</a> &raquo;</li>
+          <li><a href="../doc.html" accesskey="U">Running CUDA in Python through Cython</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="naive-addition-of-two-vectors">
+<h1>Naive addition of two vectors<a class="headerlink" href="#naive-addition-of-two-vectors" title="Permalink to this headline">¶</a></h1>
+<p>This implements a function that adds two arrays just to show how to import a CUDA module in Cython.</p>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>One should run:</p>
+<div class="highlight-python"><div class="highlight"><pre>nvcc --use-local-env --cl-version 2010 -lib -o cuda_blockadd.lib cuda_blockadd.cu
+nvcc --use-local-env --cl-version 2010 -lib -o cuda_threadadd.lib cuda_threadadd.cu
+nvcc --use-local-env --cl-version 2010 -lib -o cuda_btadd.lib cuda_btadd.cu
+nvcc --use-local-env --cl-version 2010 -lib -o cuda_longadd.lib cuda_longadd.cu
+</pre></div>
+</div>
+<p>And then:</p>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py build_ext -i -I&quot;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.0\include&quot; -lcudart -L&quot;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.0\lib\x64&quot; --force clean
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some parameters may change according to your system!</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The compiling steps are included in <tt class="docutils literal"><span class="pre">compile.bat</span></tt> so one can just run
+it.</p>
+</div>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Thre testing routine will sum two random 1-D arrays with <tt class="docutils literal"><span class="pre">n=15000000</span></tt> terms
+and compare the results with <tt class="docutils literal"><span class="pre">numpy</span></tt>. Only the <tt class="docutils literal"><span class="pre">parallel='block-thread'</span></tt>
+should give the correct result:</p>
+<div class="highlight-python"><div class="highlight"><pre>python test.py
+</pre></div>
+</div>
+<p>Which will produce something like:</p>
+<div class="highlight-python"><div class="highlight"><pre>Sum using parallel block is correct: False
+Sum using parallel thread is correct: False
+Sum using parallel block-thread is correct: True
+Sum using parallel long-array is correct: True
+</pre></div>
+</div>
+</div>
+<div class="section" id="timing">
+<h2>Timing<a class="headerlink" href="#timing" title="Permalink to this headline">¶</a></h2>
+<p>Timing the performance of this naive add function in IPython:</p>
+<div class="highlight-python"><div class="highlight"><pre>timeit np.add(a, b)
+10 loops, best of 3: 26.3 ms per loop
+
+timeit my_cuda.add(a, b, parallel=&#39;block-thread&#39;)
+10 loops, best of 3: 108 ms per loop
+
+timeit my_cuda.add(a, b, parallel=&#39;long-array&#39;)
+10 loops, best of 3: 108 ms per loop
+</pre></div>
+</div>
+<p>which is already pretty good...</p>
+</div>
+<div class="section" id="comments">
+<h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h2>
+<p>The implementation using <tt class="docutils literal"><span class="pre">parallel='block'</span></tt> is limited to arrays up to
+<tt class="docutils literal"><span class="pre">n=65535</span></tt> which is the maximum number of blocks, and for
+<tt class="docutils literal"><span class="pre">parallel='thread'</span></tt> to arrays up to <tt class="docutils literal"><span class="pre">n=512</span></tt> which is the maximum number of
+threads per execution block.</p>
+<p>The implementation using <tt class="docutils literal"><span class="pre">parallel='block-thread'</span></tt> is limited to
+<tt class="docutils literal"><span class="pre">n=65535*256=16776960</span></tt> in the way it is implemented and it could be
+expanded, but the solution in <tt class="docutils literal"><span class="pre">parallel='long-array'</span></tt> is easier to manage
+and gives the same performance, being unlimited to the size of the array and
+limited only by the amount of RAM memory in the GPU.</p>
+</div>
+<div class="section" id="possible-improvements">
+<h2>Possible Improvements<a class="headerlink" href="#possible-improvements" title="Permalink to this headline">¶</a></h2>
+<p>Do one cache-friendly access in the <tt class="docutils literal"><span class="pre">'long-array'</span></tt> implementation
+since the pace of <tt class="docutils literal"><span class="pre">blockDim.x</span> <span class="pre">*</span> <span class="pre">gridDim.x</span></tt> seems to require a large stride
+that will probably result in many cache losses (not sure though...).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Naive addition of two vectors</a><ul>
+<li><a class="reference internal" href="#installing">Installing</a></li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
+<li><a class="reference internal" href="#timing">Timing</a></li>
+<li><a class="reference internal" href="#comments">Comments</a></li>
+<li><a class="reference internal" href="#possible-improvements">Possible Improvements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../doc.html"
+                        title="previous chapter">Running CUDA in Python through Cython</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/cuda/cython/naive_add/doc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../doc.html" title="Running CUDA in Python through Cython"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../doc.html" >CUDA</a> &raquo;</li>
+          <li><a href="../doc.html" >Running CUDA in Python through Cython</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright since 2012 Saullo G. P. Castro.
+      Last updated on Jul 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
