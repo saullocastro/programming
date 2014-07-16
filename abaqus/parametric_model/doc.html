@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parametric Model &mdash; Programming 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="top" title="Programming 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Abaqus" href="../doc.html" />
+    <link rel="next" title="CUDA" href="../../cuda/doc.html" />
+    <link rel="prev" title="Abaqus" href="../doc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../cuda/doc.html" title="CUDA"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../doc.html" title="Abaqus"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../doc.html" accesskey="U">Abaqus</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="parametric-model">
+<h1>Parametric Model<a class="headerlink" href="#parametric-model" title="Permalink to this headline">¶</a></h1>
+<p>Thanks to Dr. Mariano A. Arbelo, here it follows an example of parametric
+model and a parametric study file that can be used in Abaqus.</p>
+<p>The parametric study file can be renamed with any extension being the <tt class="docutils literal"><span class="pre">.psf</span></tt>
+the default extension. It is convenient to rename to <tt class="docutils literal"><span class="pre">.py</span></tt> since it uses
+many of the Python commands and syntax, and this extension will allow a syntax
+highlighting in many text editors:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">###################################################################</span>
+<span class="c"># Parametric Study to find buckling load for different angle ply&#39;s#</span>
+<span class="c"># Parameters used in the parametric study:                        #</span>
+<span class="c">#    Theta (in degrees)                                           #</span>
+<span class="c">###################################################################</span>
+
+<span class="c"># create the study</span>
+<span class="n">BucklingStudy</span> <span class="o">=</span> <span class="n">ParStudy</span><span class="p">(</span><span class="n">par</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;Theta&#39;</span><span class="p">),</span>
+		     <span class="n">directory</span><span class="o">=</span><span class="n">ON</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">ON</span><span class="p">)</span>
+<span class="c"># define the parameters</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="n">DISCRETE</span><span class="p">,</span> <span class="n">par</span><span class="o">=</span><span class="s">&#39;Theta&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">30.</span><span class="p">,</span> <span class="mf">40.</span><span class="p">,</span> <span class="mf">50.</span><span class="p">,</span> <span class="mf">60.</span><span class="p">,</span> <span class="mf">70.</span><span class="p">,</span> <span class="mf">80.</span><span class="p">,</span> <span class="mf">90.</span><span class="p">))</span>
+<span class="c">#BucklingStudy.define(CONTINUOUS, par=&#39;Theta&#39;, domain=(0., 90.))</span>
+<span class="c"># sample the parameters</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">INTERVAL</span><span class="p">,</span> <span class="n">par</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;Theta&#39;</span><span class="p">),</span> <span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c"># combine the samples to give the designs</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">MESH</span><span class="p">)</span>
+<span class="c"># generate analysis data</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s">&#39;Example_Linear_Buckling_Parametric&#39;</span><span class="p">)</span>
+<span class="c"># execute all analysis jobs sequentially</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">ALL</span><span class="p">)</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">gather</span> <span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="s">&#39;bucklingload&#39;</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="s">&#39;MODAL&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">BucklingStudy</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">FILE</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="s">&#39;bucklingload&#39;</span><span class="p">,</span><span class="n">par</span><span class="o">=</span><span class="s">&#39;Theta&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="n">OFF</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;output.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note in the Abaqus input file below how the variables defined in the
+parametric study file above are used:</p>
+<div class="highlight-python"><div class="highlight"><pre>*HEADING
+Parametrisches Input File
+*PARAMETER
+radius=250
+hoehe=450
+gauintpunkte=7
+node_umfang=282
+node_hoehe=80
+PERT = -4
+displacement=-0.31
+thick1=0.125
+thick2=0.125
+thick3=0.125
+thick4=0.125
+phi1=24
+phi2=-24
+phi3=41
+phi4=-41
+stabil=4.e-6
+E11   = 142458.
+E22   = 9749.
+mue   = 0.277
+G12   = 5125.
+G13   = 5125.
+G23   = 4000.
+incriment = 400
+*************notmodify********************
+node_winkel=-360/node_umfang
+node_alle=node_umfang*node_hoehe
+node_last=node_alle/2
+node_oben=node_alle-node_umfang+1
+node_oben2=node_alle-node_umfang+2
+chg_nr=node_umfang*node_hoehe-node_umfang
+int_hoehe=node_hoehe-1
+node_r11=node_umfang+1
+node_r12=node_umfang+2
+int_umfang=node_umfang-1
+elm_r1=node_umfang+node_umfang
+***********Modell***************************
+*NODE,SYSTEM=C
+1,&lt;radius&gt;,0,0
+&lt;node_umfang&gt;,&lt;radius&gt;,&lt;node_winkel&gt;,0
+&lt;node_oben&gt;,&lt;radius&gt;,0,&lt;hoehe&gt;
+&lt;node_alle&gt;,&lt;radius&gt;,&lt;node_winkel&gt;,&lt;hoehe&gt;
+*NGEN,LINE=C,NSET=unten
+1,&lt;node_umfang&gt;,1,,0,0,0,0,0,1
+*NCOPY,CHANGE NUMBER=&lt;chg_nr&gt;,OLD SET=unten,SHIFT,NEW SET=oben
+0,0,&lt;hoehe&gt;
+
+*NFILL,NSET=all
+unten,oben,&lt;int_hoehe&gt;,&lt;node_umfang&gt;
+*NSET,NSET=oben1,GENERATE
+&lt;node_oben2&gt;,&lt;node_alle&gt;,1
+*NSET,NSET=ref_node
+&lt;node_oben&gt;
+*NSET,NSET=lasteinl
+&lt;node_last&gt;
+***********Elemente***************************
+*ELEMENT,TYPE=S4R
+1,1,2,&lt;node_r12&gt;,&lt;node_r11&gt;
+&lt;node_umfang&gt;,&lt;node_umfang&gt;,1,&lt;node_r11&gt;,&lt;elm_r1&gt;
+*ELGEN,ELSET=all
+1,&lt;int_umfang&gt;,1,1,&lt;int_hoehe&gt;,&lt;node_umfang&gt;,&lt;node_umfang&gt;
+&lt;node_umfang&gt;,1,1,1,&lt;int_hoehe&gt;,&lt;node_umfang&gt;,&lt;node_umfang&gt;
+**************LAMINAT********************
+*ORIENTATION, SYSTEM=C, NAME=ori
+0., 0., 0., 0., 0., 1.
+1, 90
+*SHELL SECTION, ELSET=all, COMPOSITE, ORIENTATION=ori
+&lt;thick1&gt;, 3, cfrp, &lt;phi1&gt;
+&lt;thick2&gt;, 3, cfrp, &lt;phi2&gt;
+&lt;thick3&gt;, 3, cfrp, &lt;phi3&gt;
+&lt;thick4&gt;, 3, cfrp, &lt;phi4&gt;
+*MATERIAL, NAME=cfrp
+*ELASTIC, TYPE=lamina
+&lt;E11&gt;, &lt;E22&gt;, &lt;mue&gt;, &lt;G12&gt;, &lt;G13&gt;, &lt;G23&gt;
+*BOUNDARY
+unten,1,6
+ref_node,1,2
+ref_node,4,6
+*KINEMATIC COUPLING,REF NODE=ref_node
+oben1,1,6
+*******************STEP1**********************
+*Step, nlgeom=YES, inc=20
+*Static
+0.025, 1.0, 1E-6, 0.1
+*CLOAD
+&lt;node_last&gt;,1,&lt;PERT&gt;
+*node print,nset=lasteinl,summary=no
+U1,RF1
+*MONITOR, NODE=&lt;node_last&gt;, DOF=1
+*END STEP
+********************STEP2**********************
+*Step, nlgeom=YES,INC=&lt;incriment&gt;
+*Static, STABILIZE=&lt;stabil&gt;
+0.025, 1.0, 1E-6, 0.009
+*Boundary,TYPE=DISPLACEMENT
+ref_node, 3, 3, &lt;displacement&gt;
+*OUTPUT, FIELD, FREQ=1
+*Node Output
+RF, U
+*Output, history, FREQ=1
+*Node Output, NSET=ref_node
+RF, U
+*MONITOR, NODE=ref_node, DOF=3
+***RESTART, WRITE, OVERLAY
+*End Step
+</pre></div>
+</div>
+<p>To submit the paramatric study:</p>
+<div class="highlight-python"><div class="highlight"><pre>abaqus script=script_name
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">script_name</span></tt> can be <tt class="docutils literal"><span class="pre">study.psf</span></tt> or <tt class="docutils literal"><span class="pre">study.py</span></tt>, for example.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../doc.html"
+                        title="previous chapter">Abaqus</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../cuda/doc.html"
+                        title="next chapter">CUDA</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/abaqus/parametric_model/doc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../cuda/doc.html" title="CUDA"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../doc.html" title="Abaqus"
+             >previous</a> |</li>
+        <li><a href="../../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../doc.html" >Abaqus</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright since 2012 Saullo G. P. Castro.
+      Last updated on Jul 16, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
