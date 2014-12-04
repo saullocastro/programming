@@ -1,7 +1,6 @@
 # built modules
 build
 # folders not to be included
-doc
 access
 c
 c++

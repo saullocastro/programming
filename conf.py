@@ -98,8 +98,9 @@ html_static_path = ['doc/_static']
 # using the given strftime format.
 html_last_updated_fmt = '%b %d, %Y'
 
-html_logo = '../logo/logo.png'
-html_favicon = '../logo/logo.png'
+html_logo = './doc/logo_small.png'
+html_favicon = './doc/logo_small.png'
+
 # See http://sphinx-doc.org/theming.html#builtin-themes.
 html_theme = 'default'
 if html_theme=='default':
@@ -194,9 +195,9 @@ latex_elements = {
 
 
 
-# SymPy logo on title page
-html_logo = '../logo/logo.png'
-latex_logo = '../logo/logo.png'
+# Programming logo on title page
+html_logo = './doc/logo.png'
+latex_logo = './doc/logo.png'
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
