@@ -23,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="shortcut icon" href="../../_static/logo.png"/>
+    <link rel="shortcut icon" href="../../_static/logo_small.png"/>
     <link rel="top" title="Programming 1.0.0 documentation" href="../../index.html" />
     <link rel="up" title="Abaqus" href="../doc.html" />
-    <link rel="next" title="CUDA" href="../../cuda/doc.html" />
+    <link rel="next" title="Prototype Application for Abaqus" href="../prototypeApp/doc.html" />
     <link rel="prev" title="Abaqus" href="../doc.html" /> 
   </head>
   <body>
@@ -37,7 +37,7 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../cuda/doc.html" title="CUDA"
+          <a href="../prototypeApp/doc.html" title="Prototype Application for Abaqus"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../doc.html" title="Abaqus"
@@ -86,115 +86,6 @@ highlighting in many text editors:</p>
 </div>
 <p>Note in the Abaqus input file below how the variables defined in the
 parametric study file above are used:</p>
-<div class="highlight-python"><div class="highlight"><pre>*HEADING
-Parametrisches Input File
-*PARAMETER
-radius=250
-hoehe=450
-gauintpunkte=7
-node_umfang=282
-node_hoehe=80
-PERT = -4
-displacement=-0.31
-thick1=0.125
-thick2=0.125
-thick3=0.125
-thick4=0.125
-phi1=24
-phi2=-24
-phi3=41
-phi4=-41
-stabil=4.e-6
-E11   = 142458.
-E22   = 9749.
-mue   = 0.277
-G12   = 5125.
-G13   = 5125.
-G23   = 4000.
-incriment = 400
-*************notmodify********************
-node_winkel=-360/node_umfang
-node_alle=node_umfang*node_hoehe
-node_last=node_alle/2
-node_oben=node_alle-node_umfang+1
-node_oben2=node_alle-node_umfang+2
-chg_nr=node_umfang*node_hoehe-node_umfang
-int_hoehe=node_hoehe-1
-node_r11=node_umfang+1
-node_r12=node_umfang+2
-int_umfang=node_umfang-1
-elm_r1=node_umfang+node_umfang
-***********Modell***************************
-*NODE,SYSTEM=C
-1,&lt;radius&gt;,0,0
-&lt;node_umfang&gt;,&lt;radius&gt;,&lt;node_winkel&gt;,0
-&lt;node_oben&gt;,&lt;radius&gt;,0,&lt;hoehe&gt;
-&lt;node_alle&gt;,&lt;radius&gt;,&lt;node_winkel&gt;,&lt;hoehe&gt;
-*NGEN,LINE=C,NSET=unten
-1,&lt;node_umfang&gt;,1,,0,0,0,0,0,1
-*NCOPY,CHANGE NUMBER=&lt;chg_nr&gt;,OLD SET=unten,SHIFT,NEW SET=oben
-0,0,&lt;hoehe&gt;
-
-*NFILL,NSET=all
-unten,oben,&lt;int_hoehe&gt;,&lt;node_umfang&gt;
-*NSET,NSET=oben1,GENERATE
-&lt;node_oben2&gt;,&lt;node_alle&gt;,1
-*NSET,NSET=ref_node
-&lt;node_oben&gt;
-*NSET,NSET=lasteinl
-&lt;node_last&gt;
-***********Elemente***************************
-*ELEMENT,TYPE=S4R
-1,1,2,&lt;node_r12&gt;,&lt;node_r11&gt;
-&lt;node_umfang&gt;,&lt;node_umfang&gt;,1,&lt;node_r11&gt;,&lt;elm_r1&gt;
-*ELGEN,ELSET=all
-1,&lt;int_umfang&gt;,1,1,&lt;int_hoehe&gt;,&lt;node_umfang&gt;,&lt;node_umfang&gt;
-&lt;node_umfang&gt;,1,1,1,&lt;int_hoehe&gt;,&lt;node_umfang&gt;,&lt;node_umfang&gt;
-**************LAMINAT********************
-*ORIENTATION, SYSTEM=C, NAME=ori
-0., 0., 0., 0., 0., 1.
-1, 90
-*SHELL SECTION, ELSET=all, COMPOSITE, ORIENTATION=ori
-&lt;thick1&gt;, 3, cfrp, &lt;phi1&gt;
-&lt;thick2&gt;, 3, cfrp, &lt;phi2&gt;
-&lt;thick3&gt;, 3, cfrp, &lt;phi3&gt;
-&lt;thick4&gt;, 3, cfrp, &lt;phi4&gt;
-*MATERIAL, NAME=cfrp
-*ELASTIC, TYPE=lamina
-&lt;E11&gt;, &lt;E22&gt;, &lt;mue&gt;, &lt;G12&gt;, &lt;G13&gt;, &lt;G23&gt;
-*BOUNDARY
-unten,1,6
-ref_node,1,2
-ref_node,4,6
-*KINEMATIC COUPLING,REF NODE=ref_node
-oben1,1,6
-*******************STEP1**********************
-*Step, nlgeom=YES, inc=20
-*Static
-0.025, 1.0, 1E-6, 0.1
-*CLOAD
-&lt;node_last&gt;,1,&lt;PERT&gt;
-*node print,nset=lasteinl,summary=no
-U1,RF1
-*MONITOR, NODE=&lt;node_last&gt;, DOF=1
-*END STEP
-********************STEP2**********************
-*Step, nlgeom=YES,INC=&lt;incriment&gt;
-*Static, STABILIZE=&lt;stabil&gt;
-0.025, 1.0, 1E-6, 0.009
-*Boundary,TYPE=DISPLACEMENT
-ref_node, 3, 3, &lt;displacement&gt;
-*OUTPUT, FIELD, FREQ=1
-*Node Output
-RF, U
-*Output, history, FREQ=1
-*Node Output, NSET=ref_node
-RF, U
-*MONITOR, NODE=ref_node, DOF=3
-***RESTART, WRITE, OVERLAY
-*End Step
-</pre></div>
-</div>
 <p>To submit the paramatric study:</p>
 <div class="highlight-python"><div class="highlight"><pre>abaqus script=script_name
 </pre></div>
@@ -215,8 +106,8 @@ RF, U
   <p class="topless"><a href="../doc.html"
                         title="previous chapter">Abaqus</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../../cuda/doc.html"
-                        title="next chapter">CUDA</a></p>
+  <p class="topless"><a href="../prototypeApp/doc.html"
+                        title="next chapter">Prototype Application for Abaqus</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/abaqus/parametric_model/doc.txt"
@@ -246,7 +137,7 @@ RF, U
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../cuda/doc.html" title="CUDA"
+          <a href="../prototypeApp/doc.html" title="Prototype Application for Abaqus"
              >next</a> |</li>
         <li class="right" >
           <a href="../doc.html" title="Abaqus"
@@ -257,7 +148,7 @@ RF, U
     </div>
     <div class="footer">
         &copy; Copyright since 2012 Saullo G. P. Castro.
-      Last updated on Jul 16, 2014.
+      Last updated on Dec 04, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

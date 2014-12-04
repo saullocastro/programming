@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>CUDA &mdash; Programming 1.0.0 documentation</title>
+    <title>Questions &mdash; Programming 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,8 +25,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/logo_small.png"/>
     <link rel="top" title="Programming 1.0.0 documentation" href="../index.html" />
-    <link rel="next" title="Running CUDA in Python through Cython" href="cython/doc.html" />
-    <link rel="prev" title="Prototype Application for Abaqus" href="../abaqus/prototypeApp/doc.html" /> 
+    <link rel="up" title="CUDA" href="doc.html" />
+    <link rel="next" title="References" href="ref.html" />
+    <link rel="prev" title="Naive addition of two vectors" href="cython/naive_add/doc.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,12 +37,13 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="cython/doc.html" title="Running CUDA in Python through Cython"
+          <a href="ref.html" title="References"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../abaqus/prototypeApp/doc.html" title="Prototype Application for Abaqus"
+          <a href="cython/naive_add/doc.html" title="Naive addition of two vectors"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Programming 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="doc.html" accesskey="U">CUDA</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,20 +52,25 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="cuda">
-<h1>CUDA<a class="headerlink" href="#cuda" title="Permalink to this headline">¶</a></h1>
-<p>Learning how to program in CUDA (specially CUDA C). A great book to start is
-for sure <a class="reference internal" href="ref.html#sanders2010" id="id1">[sanders2010]</a>.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="cython/doc.html">Running CUDA in Python through Cython</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cython/naive_add/doc.html">Naive addition of two vectors</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="questions.html">Questions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ref.html">References</a></li>
-</ul>
+  <div class="section" id="questions">
+<h1>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h1>
+<p>Here I keep track of some questions I really wanted to answer during my
+studies on CUDA C.</p>
+<ol class="arabic">
+<li><p class="first">If CUDA C manages the distribution to the threads and blocks, what are the
+implications of using different block and thread sizes?:</p>
+<div class="highlight-python"><div class="highlight"><pre>???
+</pre></div>
 </div>
+</li>
+<li><p class="first">If the shared memory latency is <img class="math" src="../_images/math/90da1e4eab41c929d5494e822ce42c6d9bca69af.png" alt="\approx 100 \times"/> lower than uncached
+global memory latency, how to make the access to the array more cache
+friendly?:</p>
+<div class="highlight-python"><div class="highlight"><pre>???
+</pre></div>
+</div>
+</li>
+</ol>
 </div>
 
 
@@ -76,14 +83,14 @@ for sure <a class="reference internal" href="ref.html#sanders2010" id="id1">[san
               <img class="logo" src="../_static/logo.png" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../abaqus/prototypeApp/doc.html"
-                        title="previous chapter">Prototype Application for Abaqus</a></p>
+  <p class="topless"><a href="cython/naive_add/doc.html"
+                        title="previous chapter">Naive addition of two vectors</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="cython/doc.html"
-                        title="next chapter">Running CUDA in Python through Cython</a></p>
+  <p class="topless"><a href="ref.html"
+                        title="next chapter">References</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/cuda/doc.txt"
+    <li><a href="../_sources/cuda/questions.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -110,12 +117,13 @@ for sure <a class="reference internal" href="ref.html#sanders2010" id="id1">[san
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="cython/doc.html" title="Running CUDA in Python through Cython"
+          <a href="ref.html" title="References"
              >next</a> |</li>
         <li class="right" >
-          <a href="../abaqus/prototypeApp/doc.html" title="Prototype Application for Abaqus"
+          <a href="cython/naive_add/doc.html" title="Naive addition of two vectors"
              >previous</a> |</li>
-        <li><a href="../index.html">Programming 1.0.0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Programming 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="doc.html" >CUDA</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

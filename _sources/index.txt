@@ -20,6 +20,7 @@ Contents
 
    abaqus/doc.rst
    cuda/doc.rst
+   python/doc.rst
 
 
 Authors
